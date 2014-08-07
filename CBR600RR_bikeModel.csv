@@ -1,0 +1,15 @@
+mass,220
+wheelbase,1.36906
+wheel radius,0.32004
+muTire,1.12
+tire profile Tx,0.05712
+tire profile Ty,0.0933
+brake lever pull force,325
+x_lever,0.085
+y_lever,0.02
+brake slave cyl,0.00086526
+brake master cyl,0.000615
+number of pistons,8
+rotor radius,0.155
+muRotor,0.35
+rwTorque,800
