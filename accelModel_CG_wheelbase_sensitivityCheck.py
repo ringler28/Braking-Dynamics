@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 
 
 #Specify bike model file to load parameters from 
-bikeModel = np.genfromtxt("C:/Users/bringler/Documents/documentsAccel/CBR600RR.csv", delimiter=",")
+bikeModel = np.genfromtxt("C:/Users/bringler/Documents/documentsAccel/CBR600RR_bikeModel.csv", delimiter=",")
 
 cg_Max_pctVariation = 0.25 #specifies max pct shift of CG location
 CGyFactor_options = np.array([-1.0, -0.9, -0.8, -0.7, -0.6, -0.5, -0.4, -0.3, -0.2, -0.1, 0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0])   #Scalar value that shifts CG up or down(max shift is cg_Max_pctVariation [-1 is low and 1 is high]) 
