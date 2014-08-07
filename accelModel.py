@@ -12,7 +12,7 @@ import math as m
 import numpy as np
 
 #Specify bike model file to load parameters from 
-bikeModel = np.genfromtxt("C:/Users/bringler/Documents/documentsAccel/CBR600RR.csv", delimiter=",")
+bikeModel = np.genfromtxt("D:\documents\GitHub\Braking-Dynamics\CBR600RR_bikeModel.csv", delimiter=",")
 
 CGyFactor = 0.9   #determines ratio of lat. accel to long. accel (decreasing raises CGy [requirements specify 0.9])
 

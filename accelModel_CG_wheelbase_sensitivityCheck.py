@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 
 
 #Specify bike model file to load parameters from 
-bikeModel = np.genfromtxt("C:/Users/bringler/Documents/documentsAccel/CBR600RR_bikeModel.csv", delimiter=",")
+bikeModel = np.genfromtxt("D:\documents\GitHub\Braking-Dynamics\CBR600RR_bikeModel.csv", delimiter=",")
 
 cg_Max_pctVariation = 0.25 #specifies max pct shift of CG location
 CGyFactor_options = np.array([-1.0, -0.9, -0.8, -0.7, -0.6, -0.5, -0.4, -0.3, -0.2, -0.1, 0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0])   #Scalar value that shifts CG up or down(max shift is cg_Max_pctVariation [-1 is low and 1 is high]) 
@@ -156,7 +156,7 @@ plt.title('Rear Wheel Torque')
 plt.xlabel('CG x-distance % shift')
 plt.ylabel('CG y-height % shift')
 plt.subplot(212)
-plt.scatter(CGpctShift_array[:, 0], CGpctShift_array[:, 1], c = brakeTorque_array, marker = 's', s = 200, vmin = min(brakeTorque_array), vmax = max(brakeTorque_array))
+plt.scatter(CGpctShift_array[:, 0], CGpctShift_array[:, 1], c = brakeTorque_Liftarray, marker = 's', s = 200, vmin = min(brakeTorque_array), vmax = max(brakeTorque_array))
 plt.colorbar()
 plt.subplots_adjust(hspace = 0.4)
 plt.title('Braking Torque')
