@@ -40,8 +40,11 @@ radWhl = bikeModel[2,1]    #radius of wheel
 muRot = bikeModel[13,1]        #frictional constant between brake pads and rotor (approx.)
 
 #vehcicle CoG location
-CGy = whlBase / 2 * CGyFactor * muTire
+CGy = whlBase / (2 * CGyFactor * muTire)
 CGx = whlBase / 2
+
+CGy = CGy - CGy*0.25
+CGx = CGx - CGx*0.25
 
 #Braking limitations
 Fin = Flever * (Xlever / Ylever)
