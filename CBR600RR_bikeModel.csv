@@ -11,5 +11,5 @@ brake slave cyl,0.0006126
 brake master cyl,0.000625
 number of pistons,8
 rotor radius,0.155
-muRotor,0.55
+muRotor,0.6
 rwTorque,800
