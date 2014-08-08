@@ -22,6 +22,7 @@ CGyFactor_options = np.array([-1.0, -0.9, -0.8, -0.7, -0.6, -0.5, -0.4, -0.3, -0
 CGxFactor_options = np.array([-1.0, -0.9, -0.8, -0.7, -0.6, -0.5, -0.4, -0.3, -0.2, -0.1, 0.0,0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0])   #Scalar value that shifts CG forward or backwards(max shift is cg_Max_pctVariation [-1 is forward and 1 is backwards])
 whlBase_options = np.array([1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7])
 
+
 #Input parameters pulled from vehicle parameter file
 mass = bikeModel[0,1]
 whlBase = bikeModel[1,1]
@@ -59,13 +60,15 @@ CGx_array = np.array([])
 CGxFactor_array = np.array([])
 CGyFactor_array = np.array([])
 whlBase_array = np.array([])
+minLean_array = np.array([])
+optimalWhlBase_array = np.array([])
 
 for w in whlBase_options: 
     whlBase = w
     
     for y in CGyFactor_options:
         #vehcicle CoG location
-        CGy = whlBase / 2 * muTire
+        CGy = whlBase / (2 * muTire)
         CGx = whlBase / 2
         y_pctShift = y * cg_Max_pctVariation 
         CGy = CGy + CGy*y_pctShift              
@@ -138,7 +141,8 @@ for w in whlBase_options:
                 
     CG_array = np.column_stack((CGx_array, CGy_array))
     CGpctShift_array = np.column_stack((CGxFactor_array, CGyFactor_array))
-    
+  
+'''''''''
     #plots lean angle for each wheelbase option
     plt.figure('Required lean Angle when wheelbase = ' + str(whlBase) + 'm.')
     plt.scatter(CGpctShift_array[:, 0], CGpctShift_array[:, 1], c = leanAngle_array, marker = 's', s = 200, vmin = min(leanAngle_array), vmax = max(leanAngle_array))
@@ -146,6 +150,7 @@ for w in whlBase_options:
     plt.title('Required lean Angle when wheelbase = ' + str(whlBase) + 'm.')
     plt.xlabel('CG x-distance % shift')
     plt.ylabel('CG y-height % shift')
+'''''''''
 
 #plots rear wheel torque and braking
 plt.figure('Effects of CG location shift')
@@ -164,6 +169,36 @@ plt.xlabel('CG x-distance % shift')
 plt.ylabel('CG y-height % shift')
 
 
+#determines optimal cg location and wheelbase for maxmimum torques smallest leanangle 
+combinedTorque = rwTorque_array + brakeTorque_Liftarray
+Torque_CGlookup = np.column_stack((combinedTorque, CGpctShift_array, leanAngle_array))
+maxCombinedTorque = max(Torque_CGlookup[:,0])
+
+
+k = 0
+n = 0
+for i in Torque_CGlookup[:,0]:
+    if Torque_CGlookup[k,0] == maxCombinedTorque:
+        n = k
+    k += 1
+
+
+print ''   
+print 'Optimization of useable torque in both propulsion and braking yields:'
+if Torque_CGlookup[n,1] > 0.0:
+    print 'C.o.G. x-location shifted ' + str(abs(Torque_CGlookup[n,1])*100) + '% reaward' 
+elif Torque_CGlookup[n,1] < 0.0:
+    print 'C.o.G. x-location shifted ' + str(abs(Torque_CGlookup[n,1])*100) + '% forward' 
+elif Torque_CGlookup[n,1] == 0.0:
+    print 'C.o.G. x-location remains centered at x = w/2' 
+if Torque_CGlookup[n,2] > 0.0:
+    print 'C.o.G. y-location shifted ' + str(abs(Torque_CGlookup[n,2])*100) + '% upward' 
+elif Torque_CGlookup[n,2] < 0.0:
+    print 'C.o.G. y-location shifted ' + str(abs(Torque_CGlookup[n,2])*100) + '% downward' 
+elif Torque_CGlookup[n,2] == 0.0:
+    print 'C.o.G. y-location remains unshifted at y= w/(2mu)'   
+print 'Lean angle required = ' + str(Torque_CGlookup[n,3]) + 'degrees'
+print ''
 
 #combined torque and braking plot
 #tqplt = plt.figure('Torque Limitations due to CG changes')
